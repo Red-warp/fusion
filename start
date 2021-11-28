@@ -2,7 +2,7 @@
 _get_repolink () {
     local regex
     regex='(https?)://github.com/.+/.+'
-    if [[ $fusion_REPO == "fusinbot" ]]
+    if [[ $fusion_REPO == "fusionbot" ]]
     then
         echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1GdXNzaW9uL2Z1c3Npb24vYXJjaGl2ZS9tYXN0ZXIuemlw" | base64 -d
     elif [[ $fusion_REPO == "fusionbot" ]]

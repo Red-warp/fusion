@@ -1,7 +1,7 @@
 FROM TeamFussion/fussion:slim-buster
 
 #clonning repo 
-RUN git clone https://github.com/TeamFussion/fussion.git /root/userbot
+RUN git clone https://github.com/TeamFussion/Fussion.git /root/userbot
 #working directory 
 WORKDIR /root/userbot
 

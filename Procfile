@@ -1,1 +1,1 @@
-worker: bash start
+userbot: python -m userbot

@@ -1,3 +1,4 @@
+"""
 #!/bin/bash
 
 _get_repolink () {
@@ -63,3 +64,4 @@ _set_bot () {
 }
 
 _set_bot
+"""

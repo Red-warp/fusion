@@ -1,4 +1,4 @@
-FROM TeamFussion/Fussion:slim-buster
+FROM TeamFussion/fussion:slim-buster
 
 #clonning repo 
 RUN git clone https://github.com/TeamFussion/Fussion.git /root/userbot

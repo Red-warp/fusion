@@ -32,9 +32,9 @@ _get_repolink () {
     elif [[ $FUSSION_REPO == "badcat" ]]
     then
         rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL0ppc2FuMDkvY2F0dXNlcmJvdA==" | base64 -d`
-    elif [[ $UPSTREAM_REPO =~ $regex ]]
+    elif [[ $FUSSION_REPO =~ $regex ]]
     then
-        rlink=`echo "${UPSTREAM_REPO}"`
+        rlink=`echo "${FUSSION_REPO}"`
     else
         rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3NhbmR5MTcwOS9jYXR1c2VyYm90" | base64 -d`
     fi
@@ -49,10 +49,10 @@ _run_python_code() {
 _run_catpack_git() {
     $(_run_python_code 'from git import Repo
 import sys
-OFFICIAL_UPSTREAM_REPO = "https://github.com/Mr-confused/nekopack"
+OFFICIAL_FUSSION_REPO = "https://github.com/TeamFussion/Fussion"
 ACTIVE_BRANCH_NAME = "master"
 repo = Repo.init()
-origin = repo.create_remote("temponame", OFFICIAL_UPSTREAM_REPO)
+origin = repo.create_remote("temponame", OFFICIAL_FUSSION_REPO)
 origin.fetch()
 repo.create_head(ACTIVE_BRANCH_NAME, origin.refs[ACTIVE_BRANCH_NAME])
 repo.heads[ACTIVE_BRANCH_NAME].checkout(True) ')
@@ -62,10 +62,10 @@ _run_cat_git() {
     local repolink=$(_get_repolink)
     $(_run_python_code 'from git import Repo
 import sys
-OFFICIAL_UPSTREAM_REPO="'$repolink'"
-ACTIVE_BRANCH_NAME = "'$UPSTREAM_REPO_BRANCH'" or "master"
+OFFICIAL_FUSSION_REPO="'$repolink'"
+ACTIVE_BRANCH_NAME = "'$FUSSION_REPO_BRANCH'" or "master"
 repo = Repo.init()
-origin = repo.create_remote("temponame", OFFICIAL_UPSTREAM_REPO)
+origin = repo.create_remote("temponame", OFFICIAL_FUSSION_REPO)
 origin.fetch()
 repo.create_head(ACTIVE_BRANCH_NAME, origin.refs[ACTIVE_BRANCH_NAME])
 repo.heads[ACTIVE_BRANCH_NAME].checkout(True) ')
@@ -73,7 +73,7 @@ repo.heads[ACTIVE_BRANCH_NAME].checkout(True) ')
 
 _set_bot () {
     local zippath
-    zippath="catuserbot.zip"
+    zippath="fussion.zip"
     echo "  Downloading source code ..."
     wget -q $(_get_ziplink) -O "$zippath"
     echo "  Unpacking Data ..."

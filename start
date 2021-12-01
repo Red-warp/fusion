@@ -1,79 +1,27 @@
-#!/bin/bash
-
-_get_ziplink () {
-    local regex
-    regex='(https?)://github.com/.+/.+'
-    if [[ $FUSSION_REPO == "goodcat" ]]
-    then
-        echo "aHR0cHM6Ly9naXRodWIuY29tL3NhbmR5MTcwOS9jYXR1c2VyYm90L2FyY2hpdmUvbWFzdGVyLnppcA==" | base64 -d
-    elif [[ $FUSSION_REPO == "badcat" ]]
-    then
-        echo "aHR0cHM6Ly9naXRodWIuY29tL2ppc2FuMDkvY2F0dXNlcmJvdC9hcmNoaXZlL21hc3Rlci56aXA=" | base64 -d
-    elif [[ $FUSSION_REPO =~ $regex ]]
-    then
-        if [[ $FUSSION_REPO_BRANCH ]]
-        then
-            echo "${FUSSION_REPO}/archive/${UPSTREAM_REPO_BRANCH}.zip"
-        else
-            echo "${FUSSION_REPO}/archive/master.zip"
-        fi
-    else
-        echo "aHR0cHM6Ly9naXRodWIuY29tL3NhbmR5MTcwOS9jYXR1c2VyYm90L2FyY2hpdmUvbWFzdGVyLnppcA==" | base64 -d
-    fi
-}
-
 _get_repolink () {
     local regex
-    local rlink
     regex='(https?)://github.com/.+/.+'
-    if [[ $FUSSION_REPO == "goodcat" ]]
+    if [[ $fusion_REPO == "fusionbot" ]]
     then
-        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3NhbmR5MTcwOS9jYXR1c2VyYm90" | base64 -d`
-    elif [[ $FUSSION_REPO == "badcat" ]]
+        echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1GdXNzaW9uL0Z1c3Npb24vYXJjaGl2ZS9tYXN0ZXIuemlw" | base64 -d
+    elif [[ $fusion_REPO == "fusionbot" ]]
     then
-        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL0ppc2FuMDkvY2F0dXNlcmJvdA==" | base64 -d`
-    elif [[ $FUSSION_REPO =~ $regex ]]
+        echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1GdXNzaW9uL0Z1c3Npb24vYXJjaGl2ZS9tYXN0ZXIuemlw" | base64 -d
+    elif [[ $fusion_REPO =~ $regex ]]
     then
-        rlink=`echo "${FUSSION_REPO}"`
+        if [[ $fusion_REPO_BRANCH ]]
+        then
+            echo "${fusion_REPO}/archive/${fusion_REPO_BRANCH}.zip"
+        else
+            echo "${fusion_REPO}/archive/master.zip"
+        fi
     else
-        rlink=`echo "aHR0cHM6Ly9naXRodWIuY29tL3NhbmR5MTcwOS9jYXR1c2VyYm90" | base64 -d`
+        echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1GdXNzaW9uL0Z1c3Npb24vYXJjaGl2ZS9tYXN0ZXIuemlw" | base64 -d
     fi
-    echo "$rlink"
 }
-
-
-_run_python_code() {
-    python3${pVer%.*} -c "$1"
-}
-
-_run_catpack_git() {
-    $(_run_python_code 'from git import Repo
-import sys
-OFFICIAL_FUSSION_REPO = "https://github.com/TeamFussion/Fussion"
-ACTIVE_BRANCH_NAME = "master"
-repo = Repo.init()
-origin = repo.create_remote("temponame", OFFICIAL_FUSSION_REPO)
-origin.fetch()
-repo.create_head(ACTIVE_BRANCH_NAME, origin.refs[ACTIVE_BRANCH_NAME])
-repo.heads[ACTIVE_BRANCH_NAME].checkout(True) ')
-}
-
-_run_cat_git() {
-    local repolink=$(_get_repolink)
-    $(_run_python_code 'from git import Repo
-import sys
-OFFICIAL_FUSSION_REPO="'$repolink'"
-ACTIVE_BRANCH_NAME = "'$FUSSION_REPO_BRANCH'" or "master"
-repo = Repo.init()
-origin = repo.create_remote("temponame", OFFICIAL_FUSSION_REPO)
-origin.fetch()
-repo.create_head(ACTIVE_BRANCH_NAME, origin.refs[ACTIVE_BRANCH_NAME])
-repo.heads[ACTIVE_BRANCH_NAME].checkout(True) ')
-}
-
 _set_bot () {
     local zippath
-    zippath="fussion.zip"
+    zippath="fusionuserbot.zip"
     echo "  Downloading source code ..."
     wget -q $(_get_ziplink) -O "$zippath"
     echo "  Unpacking Data ..."

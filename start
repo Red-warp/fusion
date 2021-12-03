@@ -19,45 +19,25 @@ _get_repolink () {
         echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1GdXNzaW9uL0Z1c3Npb24vYXJjaGl2ZS9tYXN0ZXIuemlw" | base64 -d
     fi
 }
-_set_bot () {
+
+_setting_bot () {
     local zippath
-    zippath="fusionuserbot.zip"
-    echo "  Downloading source code ..."
-    wget -q $(_get_ziplink) -O "$zippath"
+    zippath="start.zip"
+    echo "  Downloading Fusion V3.O Source Code..."
+    wget -q $(_get_repolink) -O "$zippath"
     echo "  Unpacking Data ..."
-    CATPATH=$(zipinfo -1 "$zippath" | grep -v "/.");
+    FUSIONPATH=$(zipinfo -1 "$zippath" | grep -v "/.");
     unzip -qq "$zippath"
     echo "Done"
-    echo "  Cleaning ..."
+    echo "  fusion V3.O Cleaning.."
     rm -rf "$zippath"
-    _run_catpack_git
-    cd $CATPATH
-    _run_cat_git
-    python3 ../setup/updater.py ../requirements.txt requirements.txt
-    chmod -R 755 bin
-    echo "    Starting CatUserBot    "
-    echo "
-                        :'######:::::'###::::'########::::
-                        '##... ##:::'## ##:::... ##..:::::
-                         ##:::..:::'##:. ##::::: ##:::::::
-                         ##:::::::'##:::. ##:::: ##:::::::
-                         ##::::::: #########:::: ##:::::::
-                         ##::: ##: ##.... ##:::: ##:::::::
-                        . ######:: ##:::: ##:::: ##:::::::
-                        :......:::..:::::..:::::..::::::::
-    "
+    sleep 5
+    cd $FUSIONPATH
+    echo "    ⚜️Starting ⚜️     "
+    
 
-    echo "
-    '##::::'##::'######::'########:'########::'########:::'#######::'########:
-     ##:::: ##:'##... ##: ##.....:: ##.... ##: ##.... ##:'##.... ##:... ##..::
-     ##:::: ##: ##:::..:: ##::::::: ##:::: ##: ##:::: ##: ##:::: ##:::: ##::::
-     ##:::: ##:. ######:: ######::: ########:: ########:: ##:::: ##:::: ##::::
-     ##:::: ##::..... ##: ##...:::: ##.. ##::: ##.... ##: ##:::: ##:::: ##::::
-     ##:::: ##:'##::: ##: ##::::::: ##::. ##:: ##:::: ##: ##:::: ##:::: ##::::
-    . #######::. ######:: ########: ##:::. ##: ########::. #######::::: ##::::
-    :.......::::......:::........::..:::::..::........::::.......::::::..:::::
-    "
+    python3 ../setup/updater.py ../requirements.txt requirements.txt
     python3 -m userbot
 }
 
-_set_bot
+_setting_bot
